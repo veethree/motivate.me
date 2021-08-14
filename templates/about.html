@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block body %}
+	<div>
+		<h3 class="text-center">What is motivate.me?</h3>
+		<p class="text-center">Motivate.me generates those motivational images that your mother likes to posts on facebook.</p>
+		<br>
+		
+		<h3 class="text-center">How does it work?</h3>
+		<p class="text-center">Simply, And badly. It fetches a random stock photo from <a href="https://www.pexels.com">Pexels</a>, Sticks a random motivational quote on it from a list of about 300 motivational quotes, And then it shows it to you.</p>
+		<br>
+
+		<h3 class="text-center">Could you be more specific?</h3>
+		<p class="text-center">This whole shit is a <a href="https://flask.palletsprojects.com/en/2.0.x/">Flask</a> app, When the index page is requested, It grabs a random image from Pexels using the Pexels API, Then it picks a quote from <a href="static/quote_list.txt">this</a> file. Once the image and quote have been selected, It uses PIL to slap the quote on top of the image which is then saved to a file. Then it serves you index.html, Which contains the aforementioned image.</p>
+
+		<br>
+		<p class="text-center text-danger">It's worth noting that the Pexels API is rate-limited to 200 requests per hour, And 20,000 requests per month. If that's exceeded, This app doesn't deal with it <i><b>at all</b></i> so it will probably just crash :)</p>
+	</div>
+{% endblock %}

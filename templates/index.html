@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+
+{% block body %}
+	<h1 class="text-center">Here's your motivation!</h1>
+	<br>
+	<div class="text-center">
+		<img class = "img-fluid w-50" src="static/temp.jpg">
+		<p class="text-center">Original image by <a href="{{ img.url }}">{{ img.photographer }}</a> on <a href="https://www.pexels.com/">Pexels</a></p>
+	</div>
+{% endblock %}
