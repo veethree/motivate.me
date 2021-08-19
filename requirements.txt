@@ -1,0 +1,3 @@
+flask
+pexels_api
+pillow

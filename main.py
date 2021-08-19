@@ -4,11 +4,15 @@ from random import randrange, choice
 from PIL import Image, ImageFont, ImageDraw
 import requests
 import textwrap
+import json
 
-PEXELS_API_KEY = "Put a valid pexels api key here"
+PEXELS_API_KEY = "Insert your pexels api key here"
 
 api = API(PEXELS_API_KEY)
 app = Flask(__name__)
+
+with open("static/quotes.json", "r") as file:
+	quote_list = json.load(file)
 
 def fetch_image():
 	results = 10
@@ -18,21 +22,24 @@ def fetch_image():
 	return photo[randrange(results)]
 
 def fetch_quote():
-	lines = open("static/quote_list.txt").read().splitlines()
-	return choice(lines)
+	quote = choice(quote_list)
+	return quote
 
 def generate_image():
 	url = fetch_image().landscape
 	raw_quote = fetch_quote()
 	img = Image.open(requests.get(url, stream=True).raw)
-	width, height = img.size
-	wrapped = textwrap.wrap(raw_quote, 50)
-	quote = ""
-	for line in wrapped:
-		quote = quote + line + "\n"
+	quote = raw_quote["quote"].strip('"')
+	author = raw_quote["author"]
+	wrapped = textwrap.wrap(quote, 40)
 	draw = ImageDraw.Draw(img)
 	font = ImageFont.truetype("static/BebasNeue-Regular.ttf", 50)
-	draw.text((32, 32), quote, (255, 255, 255), font=font, align="left", stroke_width=2, stroke_fill=(0, 0, 0))
+	y = 32
+	for line in wrapped:
+		draw.text((32, y), line, (255, 255, 255), font=font, align="center", stroke_width=2, stroke_fill=(0, 0, 0))
+		y += 40
+
+	draw.text((900, 500), author, (255, 255, 255), font=font, align="right", stroke_width=2, stroke_fill=(0, 0, 0))
 	img.save("static/temp.jpg")
 
 
